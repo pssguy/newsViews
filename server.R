@@ -88,7 +88,7 @@ shinyServer(function(input, output,session) {
                             from.date=selectedDate, 
                             to.date=selectedDate, 
 
-                            api.key="3xzg2fk53jcdgaj5tbwqqhcz") # different on github
+                            api.key="3*****z") # need to obtain own to run app
 
     info=list(results=results)
   })
