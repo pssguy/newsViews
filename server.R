@@ -25,7 +25,7 @@ shinyServer(function(input, output,session) {
         startDate <- as.character(input$daterange[1])
         endDate <- as.character(input$daterange[2])
 
-        
+        print(endDate)
   df <- wp_trend(page = theName, 
                  from = startDate, 
                  to   = endDate,
@@ -88,7 +88,7 @@ shinyServer(function(input, output,session) {
                             from.date=selectedDate, 
                             to.date=selectedDate, 
 
-                            api.key="3xzg2fk53jcdgaj5tbwqqhcz")
+                            api.key="3xzg2fk53jcdgaj5tbwqqhcz") # different on github
 
     info=list(results=results)
   })
@@ -127,12 +127,7 @@ shinyServer(function(input, output,session) {
     
     vcard <-html(url) %>% 
        html_nodes(".vcard")
-#     #print(vcard)
-#     #print(xmlAttrs(vcard)) # cannot apply to XMLNodeSet
-#     #print(ncol(vcard)) # NULL so does not help
-#     #print(nrow(vcard))
-#     #print(is.null(vcard[[1]]))
-#     #print(vcard[[1]])
+
 
     vcardInfo <- vcard[[1]]
   
