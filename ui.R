@@ -1,10 +1,6 @@
-
-
-
-
 dashboardPage(
   skin = "blue",
-  dashboardHeader(title = "WikiGuardian"),
+  dashboardHeader(title = "News Views"),
   
   dashboardSidebar(
     includeCSS("custom.css"),
@@ -15,34 +11,49 @@ dashboardPage(
     
     
     sidebarMenu(
-      id = "sbMenu",
+      id = "sbMenu",  
       
-      menuItem(
+      menuItem("Wiki Guardian", tabName = "wikiGuardian",
+      menuSubItem(
         "Single Entry with Wikipedia", tabName = "guardian",icon = icon("line-chart")
       ),
-      menuItem(
+      menuSubItem(
         "Comparison Chart", tabName = "comparisons",icon = icon("line-chart")
       ),
-      menuItem(
+      menuSubItem(
         "Republican Candidates", tabName = "republican",icon = icon("user")
       ),
-      menuItem("Info", tabName = "info", icon = icon("info")),
-      menuItem(
-        "Other Dashboards",
-        
-        
-        menuSubItem("Climate",href = "https://mytinyshinys.shinyapps.io/climate"),
-        menuSubItem("Cricket",href = "https://mytinyshinys.shinyapps.io/cricket"),
-        menuSubItem("Mainly Maps",href = "https://mytinyshinys.shinyapps.io/mainlyMaps"),
-        menuSubItem("MLB",href = "https://mytinyshinys.shinyapps.io/mlbCharts"),
-        
-        menuSubItem("World Soccer",href = "https://mytinyshinys.shinyapps.io/worldSoccer")
-        
+      menuSubItem("Info", tabName = "info", icon = icon("info"))
       ),
-      menuItem("", icon = icon("twitter-square"),
-               href = "https://twitter.com/pssGuy"),
-      menuItem("", icon = icon("envelope"),
-               href = "mailto:agcur@rogers.com")
+      menuItem("DT Headlines", tabName = "dtHeadlines", selected=T),
+      
+      
+      tags$hr(),
+      menuItem(text="",href="https://mytinyshinys.shinyapps.io/dashboard",badgeLabel = "All Dashboards and Trelliscopes (14)"),
+      tags$hr(),
+      
+      tags$body(
+        a(class="addpad",href="https://twitter.com/pssGuy", target="_blank",img(src="images/twitterImage25pc.jpg")),
+        a(class="addpad2",href="mailto:agcur@rogers.com", img(src="images/email25pc.jpg")),
+        a(class="addpad2",href="https://github.com/pssguy",target="_blank",img(src="images/GitHub-Mark30px.png")),
+        a(href="https://rpubs.com/pssguy",target="_blank",img(src="images/RPubs25px.png"))
+      )
+#       menuItem(
+#         "Other Dashboards",
+#         
+#         
+#         menuSubItem("Climate",href = "https://mytinyshinys.shinyapps.io/climate"),
+#         menuSubItem("Cricket",href = "https://mytinyshinys.shinyapps.io/cricket"),
+#         menuSubItem("Mainly Maps",href = "https://mytinyshinys.shinyapps.io/mainlyMaps"),
+#         menuSubItem("MLB",href = "https://mytinyshinys.shinyapps.io/mlbCharts"),
+#         
+#         menuSubItem("World Soccer",href = "https://mytinyshinys.shinyapps.io/worldSoccer")
+#         
+#       ),
+#       menuItem("", icon = icon("twitter-square"),
+#                href = "https://twitter.com/pssGuy"),
+#       menuItem("", icon = icon("envelope"),
+#                href = "mailto:agcur@rogers.com")
       
     )
   ),
@@ -135,7 +146,27 @@ dashboardPage(
                 
                 
               )
-            )),
+            )),  
+    tabItem("dtHeadlines",
+            box(
+      width = 6, collapsible = TRUE,collapsed = FALSE,
+      status = "success", solidHeader = FALSE,
+      #title = "Daily Telegraph",
+      textInput("DT_text",label = "Enter subject of interest (case is important)"),
+      footer="Pan and Zoom. Click bar for headlines",
+      plotlyOutput("headlineChart")
+    #  DT::dataTableOutput("headlinesComp")
+      
+    ),
+    box(
+      width = 6, collapsible = TRUE,collapsed = FALSE,
+      status = "success", solidHeader = FALSE,
+      title = "Headlines - click link for article",
+      
+      DT::dataTableOutput("headlineTable")
+     
+    )
+    ),
     
     tabItem("info", includeMarkdown("info.md"))
     
