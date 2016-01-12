@@ -51,7 +51,7 @@ output$headlineTable <-DT::renderDataTable({
   
   theDate=s[["x"]]
   
-#  print(theDate)
+ print(theDate)
   
   
  sel <- DT_data %>% 

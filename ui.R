@@ -16,7 +16,7 @@ dashboardPage(
       menuItem("Wiki Guardian", tabName = "wikiGuardian",
       menuSubItem(
         "Single Entry with Wikipedia", tabName = "guardian",icon = icon("line-chart")
-      ),
+      ,selected=T),
       menuSubItem(
         "Comparison Chart", tabName = "comparisons",icon = icon("line-chart")
       ),
@@ -25,7 +25,7 @@ dashboardPage(
       ),
       menuSubItem("Info", tabName = "info", icon = icon("info"))
       ),
-      menuItem("DT Headlines", tabName = "dtHeadlines", selected=T),
+      menuItem("DT Headlines", tabName = "dtHeadlines"),
       
       
       tags$hr(),
@@ -83,7 +83,8 @@ dashboardPage(
                   status = "success", solidHeader = TRUE,
                   title = "Daily English Wikipedia Searches - click on point for Guardian coverage",
                   #includeMarkdown("about.md")
-                  ggvisOutput("ggChart")
+                  ggvisOutput("ggChart"),
+                 plotlyOutput("wikiChart")
                 )
               )
             )),
@@ -129,7 +130,7 @@ dashboardPage(
                   status = "success", solidHeader = TRUE,
                   title = "Daily English Wikipedia Searches - click on point for Guardian coverage",
                   #includeMarkdown("about.md")
-                  ggvisOutput("ggCompChart"),
+                  #ggvisOutput("ggCompChart"),
                   DT::dataTableOutput("compTable")
                 )
                 
@@ -152,7 +153,7 @@ dashboardPage(
       width = 6, collapsible = TRUE,collapsed = FALSE,
       status = "success", solidHeader = FALSE,
       #title = "Daily Telegraph",
-      textInput("DT_text",label = "Enter subject of interest (case is important)"),
+      textInput("DT_text",label = "Enter subject of interest (case is important) for Daily Telegraph 2015 coverage"),
       footer="Pan and Zoom. Click bar for headlines",
       plotlyOutput("headlineChart")
     #  DT::dataTableOutput("headlinesComp")
@@ -161,7 +162,7 @@ dashboardPage(
     box(
       width = 6, collapsible = TRUE,collapsed = FALSE,
       status = "success", solidHeader = FALSE,
-      title = "Headlines - click link for article",
+      title = "Headlines - click link to view article in separate tab",
       
       DT::dataTableOutput("headlineTable")
      

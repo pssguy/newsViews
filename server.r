@@ -48,7 +48,8 @@ shinyServer(function(input, output,session) {
   
   source("code/comparisons.R", local = TRUE)
   
-  source("code/guardian.R", local = TRUE)
+ source("code/guardian.R", local = TRUE)
   source("code/republican.R", local = TRUE)
+  source("code/telegraph.R", local = TRUE)
   
 })
