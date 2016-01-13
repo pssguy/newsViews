@@ -1,24 +1,24 @@
 # Set up reactive values initially as null
 
-values <- reactiveValues()
-
-
-
-## function which takes point clicked and then gets guardian data
-getDate = function(data,location,session) {
-  if (is.null(data))
-    return(NULL)
-  
-  # need to adjust from milliseconds from origin
-  values$trueDate <-
-    as.Date(as.POSIXct((data$date) / 1000, origin = '1970-01-01 00:10:00 GMT'))
-  values$name <- data$name
-  ## these seem to work
-  vals <- unlist(str_split(input$name,","))
-  values$name <- vals[1]
-  #print(values$trueDate)
-  #print(values$name)
-}
+# values <- reactiveValues()
+# 
+# 
+# 
+# ## function which takes point clicked and then gets guardian data
+# getDate = function(data,location,session) {
+#   if (is.null(data))
+#     return(NULL)
+#   
+#   # need to adjust from milliseconds from origin
+#   values$trueDate <-
+#     as.Date(as.POSIXct((data$date) / 1000, origin = '1970-01-01 00:10:00 GMT'))
+#   values$name <- data$name
+#   ## these seem to work
+#   vals <- unlist(str_split(input$name,","))
+#   values$name <- vals[1]
+#   #print(values$trueDate)
+#   #print(values$name)
+# }
 
 
 
@@ -29,8 +29,8 @@ getDate = function(data,location,session) {
 ## obtain wiki search results
 data <- eventReactive(input$goButton1,{
   
-  print("guardian is go")
-  print(input$name)
+#   print("guardian is go")
+#   print(input$name)
   
   if (is.null(input$name)) {
     return()
@@ -44,7 +44,7 @@ data <- eventReactive(input$goButton1,{
   startDate <- as.character(input$daterange1[1])
   endDate <- as.character(input$daterange1[2])
   
-  print(startDate)
+  # print(startDate)
   
   
   df <- wp_trend(
@@ -57,7 +57,7 @@ data <- eventReactive(input$goButton1,{
   
   df$id <- 1:nrow(df)
   
-  print(glimpse(df))
+  # print(glimpse(df))
   
   info = list(df = df,wikiURL = wikiURL)
   return(info)
@@ -99,6 +99,9 @@ data <- eventReactive(input$goButton1,{
 output$wikiChart <- renderPlotly({
   df <- data()$df
   
+  df <- df %>% 
+    ungroup() %>% 
+    arrange(date)
   
   theTitle<- input$name
   
@@ -140,8 +143,9 @@ output$wikiChart <- renderPlotly({
                x = date,
                y = count,
                
-               mode = "markers",
+               mode = "lines+markers",
                hoverinfo = "text",
+              #line=list(color="black",width=1),
               
                text = paste(
                  date,
@@ -164,19 +168,23 @@ output$wikiChart <- renderPlotly({
 ## plotly led wiki guardian table
 
 ## crosstalk to get to individual chart
-ct <- crosstalk::ClientValue$new("plotly_click", group = "A") ##NB have a group="A' in telegraph
+ct <- crosstalk::ClientValue$new("plotly_click", group = "A") ##NB have a group="A' in telegraph but call cv
 
 
 output$headlinesDT <- DT::renderDataTable({
   
-  print ("enter guardian heads")
+  # print ("enter guardian heads")
   
   s <- ct$get()
+  
+  print("s")
+  print(s)
+  
   if (length(s)==0) return()
   
   theDate=s[["x"]]
   
-  print(theDate) # "2016-01-11" #theDate <- "2016-01-11"
+  # print(theDate) # "2016-01-11" #theDate <- "2016-01-11"
   
   
 #   trueDate <-
@@ -186,7 +194,7 @@ output$headlinesDT <- DT::renderDataTable({
   #   vals <- unlist(str_split(input$name,","))
   #   values$name <- vals[1]
   
-   vals <- unlist(str_split("david bowie",","))
+   vals <- unlist(str_split(input$name,","))
  #  values$name <- vals[1]
   
   #   theName <-
@@ -209,7 +217,7 @@ output$headlinesDT <- DT::renderDataTable({
       
       api.key="3xzg2fk53jcdgaj5tbwqqhcz")
     
-    print(glimpse(results))
+    # print(glimpse(results))
     
     if (nrow(results) == 1 & is.na(results$id[1])) {
       DT::datatable(
@@ -286,25 +294,25 @@ output$headlinesDT <- DT::renderDataTable({
 })
 
 
-output$headlineTable <-DT::renderDataTable({
-  s <- cv$get()
-  if (length(s)==0) return()
-  
-  theDate=s[["x"]]
-  
-  #  print(theDate)
-  
-  
-  sel <- DT_data %>% 
-    filter(date==theDate&str_detect(headlines,input$DT_text)==TRUE) %>% 
-    mutate(url = paste0(
-      "<a href=\"","http://www.telegraph.co.uk",link,"\" target=\"_blank\">", headlines,"</a>"
-    )) %>%
-    select(headline=url) %>% 
-    DT::datatable(class='compact stripe hover row-border order-column',rownames=FALSE,escape = FALSE,
-                  options= list(paging = FALSE, searching = FALSE,info=FALSE))
-  
-})
+# output$headlineTable <-DT::renderDataTable({
+#   s <- cv$get()
+#   if (length(s)==0) return()
+#   
+#   theDate=s[["x"]]
+#   
+#   #  print(theDate)
+#   
+#   
+#   sel <- DT_data %>% 
+#     filter(date==theDate&str_detect(headlines,input$DT_text)==TRUE) %>% 
+#     mutate(url = paste0(
+#       "<a href=\"","http://www.telegraph.co.uk",link,"\" target=\"_blank\">", headlines,"</a>"
+#     )) %>%
+#     select(headline=url) %>% 
+#     DT::datatable(class='compact stripe hover row-border order-column',rownames=FALSE,escape = FALSE,
+#                   options= list(paging = FALSE, searching = FALSE,info=FALSE))
+#   
+# })
 
 
 

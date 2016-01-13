@@ -18,7 +18,7 @@ dashboardPage(
         "Single Entry with Wikipedia", tabName = "guardian",icon = icon("line-chart")
       ,selected=T),
       menuSubItem(
-        "Comparison Chart", tabName = "comparisons",icon = icon("line-chart")
+        "Comparison Chart", tabName = "comparisons",icon = icon("line-chart"), selected=T
       ),
       menuSubItem(
         "Republican Candidates", tabName = "republican",icon = icon("user")
@@ -61,6 +61,17 @@ dashboardPage(
     tabItem("guardian",
             fluidRow(
               column(
+                width = 8,
+                box(
+                  width = 12,
+                  status = "success", solidHeader = TRUE,
+                  title = "Daily English Wikipedia Searches - click on point for Guardian coverage",
+                  #includeMarkdown("about.md")
+                  #ggvisOutput("ggChart"),
+                  plotlyOutput("wikiChart")
+                )
+              ),
+              column(
                 width = 4,
                 box(
                   width = 12, collapsible = TRUE,
@@ -75,18 +86,8 @@ dashboardPage(
                   title = "Wikipedia Summary",
                   uiOutput("testvcard")
                 )
-              ),
-              column(
-                width = 8,
-                box(
-                  width = 12,
-                  status = "success", solidHeader = TRUE,
-                  title = "Daily English Wikipedia Searches - click on point for Guardian coverage",
-                  #includeMarkdown("about.md")
-                  ggvisOutput("ggChart"),
-                 plotlyOutput("wikiChart")
-                )
               )
+              
             )),
     tabItem("republican",
             fluidRow(
@@ -130,7 +131,8 @@ dashboardPage(
                   status = "success", solidHeader = TRUE,
                   title = "Daily English Wikipedia Searches - click on point for Guardian coverage",
                   #includeMarkdown("about.md")
-                  #ggvisOutput("ggCompChart"),
+                 ## ggvisOutput("ggCompChart"),
+                 plotlyOutput("compChart"),
                   DT::dataTableOutput("compTable")
                 )
                 

@@ -24,8 +24,8 @@ shinyServer(function(input, output,session) {
       inputPanel(
         id = "ip2",
         textInput("comps","Enter selection(s) separated by comma"),# do not enter value as otherwise titles come up before chart
-        radioButtons("chartType","Choose Chart",c("Point","Line"), inline =
-                       TRUE),
+#         radioButtons("chartType","Choose Chart",c("Point","Line"), inline =
+#                        TRUE),
         radioButtons("chartScale","Choose Scale",c("Count","Log"),inline =
                        TRUE),
         
